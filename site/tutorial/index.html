@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Tutorial - RoutR</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Tutorial";
+    var mkdocs_page_input_path = "tutorial.md";
+    var mkdocs_page_url = "/tutorial/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> RoutR</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../contact/">Contact</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../license/">License</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Tutorial</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#upper-tuolumne-subwatershed">Upper Tuolumne subwatershed</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#data-and-study-area">Data and study area</a></li>
+        
+            <li><a class="toctree-l3" href="#flow-direction-file">Flow direction file</a></li>
+        
+            <li><a class="toctree-l3" href="#fraction-file">Fraction file</a></li>
+        
+            <li><a class="toctree-l3" href="#station-location-file">Station location file</a></li>
+        
+            <li><a class="toctree-l3" href="#runoff-files">Runoff files</a></li>
+        
+            <li><a class="toctree-l3" href="#unit-hydrograph-file">Unit hydrograph file</a></li>
+        
+            <li><a class="toctree-l3" href="#parameter-file">Parameter file</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">RoutR</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Tutorial</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="upper-tuolumne-subwatershed">Upper Tuolumne subwatershed</h1>
+<p>This tutorial demonstrates how to create inputs for the UW routing model for a watershed in the Upper Tuolumne River Basin, California. I am assuming that you already have a flow direction map (e.g. generated from a DEM using GIS software), and that you have runoff and baseflow outputs from a hydrologic model (such as <a href="../[https://vic.readthedocs.io/en/vic.4.2.d/]">VIC</a>).</p>
+<h2 id="data-and-study-area">Data and study area</h2>
+<p>The following demo data are included with the RoutR package:</p>
+<ul>
+<li>Digital elevation model (DEM) (raster)</li>
+<li>Flow direction map (raster)</li>
+<li>Watershed boundary (shapefile)</li>
+<li>Gauge coordinates (shapefile)</li>
+<li>River centerlines (shapefile)</li>
+</ul>
+<p>The study area is a 550 sq. km portion of the Upper Tuolumne basin. The watershed outlet is on the Tuolumne River, near its intersection with Piute Creek. <img alt="Study area map" src="../img/study_area_map.png" /></p>
+<h2 id="flow-direction-file">Flow direction file</h2>
+<p>You can use different GIS softwares (e.g. ArcGIS, GRASS GIS) to generate a D8 flow direction map based on a DEM. However, automatic flow direction delineation is prone to errors, so it is usually a good idea to check that your flow direction map is consistent with the true shape of the watershed (if known). I have developed the <a href="../[https://github.com/jschap1/FlowDirectionToolkit]">Flow Direction Toolkit</a> for this purpose.</p>
+<p>The UW routing model requires a specific input format for its flow direction files. Therefore, RoutR includes the capability to convert from commonly-used formats to the required UW routing model input format.</p>
+<pre><code class="r">data(upptuo) # load sample data
+plot(fd_merc, main = &quot;Flow direction map&quot;)
+
+# Convert flow directions from ArcGIS convention to VIC/UW routing model convention.
+fd_merc_vic &lt;- convert_flowdir(fd_merc, &quot;ARCGIS&quot;, &quot;VIC&quot;)
+</code></pre>
+
+<p>In case the flow direction map is larger than the basin area, clip the flow direction map to match the basin mask.</p>
+<pre><code class="r"># Create a mask of the basin
+basinmask_merc &lt;- rasterize(bb_merc, dem_merc)
+savename &lt;- &quot;fd_merc_clip.tif&quot;
+
+# Clip the flow direction file and save as ASCII Grid file
+fd_merc_clip &lt;- clip_flowdir(fd_merc, basinmask_merc, savename, out_format = &quot;ascii&quot;)
+</code></pre>
+
+<h2 id="fraction-file">Fraction file</h2>
+<p>If the model grid cells are relatively large compared to the size of the study basin, then the coarse watershed mask may overestimate or underestimate the actual basin area. The routing model uses a fraction file to account for fractional coverage on the basin boundaries.</p>
+<pre><code class="r">fract &lt;- make_fract(dem, bb, saveloc = &quot;.&quot;, 
+    basename = &quot;tuo&quot;, 
+    target_res = 1/32
+    )
+plot(fract, &quot;Fractional area map&quot;)
+lines(bb)
+</code></pre>
+
+<p>Currently, <code>make_fract</code> only works for geographic coordinate systems with square grid cells. This is a limitation of RoutR.</p>
+<p>If the model grid cells are small compared to the total size of the basin, then the partial grid cells will be insignificant, and you can use a trivial fraction file with all values equal to 1. RoutR provides <code>make_fract_trivial</code> to create such a fraction file. (This function works with either geographic or projected coordinate systems.)</p>
+<pre><code class="r">fract &lt;- make_fract_trivial(basinmask_merc, saveloc = &quot;.&quot;, basename = &quot;tuo&quot;)
+</code></pre>
+
+<h2 id="station-location-file">Station location file</h2>
+<p>If you have a list of station locations, you can use <code>make_stnloc</code> to automatically generate a station location file. <code>r</code> is a raster with the same resolution and extent as the flow direction file (i.e. the flow direction file).</p>
+<pre><code class="r"># Make a text file with gage coordinates, if one doesn't exist already
+write.table(coordinates(gage), file = &quot;gage_coords.txt&quot;)
+
+# Generate the station location file
+r &lt;- fd
+basename &lt;- &quot;tuo&quot;
+make_stnloc(r, &quot;gage_coords.txt&quot;, basename, saveloc = &quot;.&quot;)
+</code></pre>
+
+<h2 id="runoff-files">Runoff files</h2>
+<p>Files containing time series of runoff and baseflow are required at each grid cell in the watershed. These can be generated by running a land surface model, such as VIC, or runoff (and baseflow) fields can be downloaded from an existing dataset. </p>
+<h2 id="unit-hydrograph-file">Unit hydrograph file</h2>
+<p>The <a href="../[https://vic.readthedocs.io/en/vic.4.2.d/Documentation/Routing/UH/]">VIC 4.2d documentation</a> has a unit hydrograph file that "can be used unmodified if only flows on the monthly scale are required." It is reproduced below:</p>
+<pre><code>0   0.0100
+1   0.2400
+2   0.3300
+3   0.1800
+4   0.1200
+5   0.0500
+6   0.0200
+7   0.0100
+8   0.0100
+9   0.0100
+10  0.0100
+11  0.0100
+</code></pre>
+<h2 id="parameter-file">Parameter file</h2>
+<p>This is the control file for the UW routing model. It specifies the locations of the routing model inputs and outputs, and parameters such as start and end dates of the simulation. Here is the parameter file for the Upper Tuolumne subwatershed:</p>
+<pre><code>Here is a block quote. At least, I think this is the correct Markdown syntax.
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../license/" class="btn btn-neutral" title="License"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+    
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../license/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+    <script src="../js/theme.js"></script>
+
+</body>
+</html>

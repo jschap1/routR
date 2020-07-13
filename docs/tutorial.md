@@ -97,6 +97,6 @@ This is the control file for the UW routing model. It specifies the locations of
 
 	Here is a block quote. At least, I think this is the correct Markdown syntax.
 
-[FDT]:[https://github.com/jschap1/FlowDirectionToolkit]
-[vic4-docs]:[https://vic.readthedocs.io/en/vic.4.2.d/Documentation/Routing/UH/]
-[vic4-docs1]:[https://vic.readthedocs.io/en/vic.4.2.d/]
+[FDT]:https://github.com/jschap1/FlowDirectionToolkit
+[vic4-docs]:https://vic.readthedocs.io/en/vic.4.2.d/Documentation/Routing/UH/
+[vic4-docs1]:https://vic.readthedocs.io/en/vic.4.2.d/

@@ -37,8 +37,8 @@ install_github("https://github.com/jschap1/routR")
 [uwmodel-github]:https://github.com/UW-Hydro/VIC_Routing
 [rvic]:https://github.com/UW-Hydro/RVIC
 [lohmann1998]:https://www.tandfonline.com/doi/abs/10.1080/02626669809492107
-[vic42d-docs]:[https://vic.readthedocs.io/en/vic.4.2.d/Documentation/Routing/RoutingInput/]
-[routr-github]:[https://github.com/jschap1/routR]
+[vic42d-docs]:https://vic.readthedocs.io/en/vic.4.2.d/Documentation/Routing/RoutingInput/
+[routr-github]:https://github.com/jschap1/routR
 
 <!-- Help: 
 https://www.mkdocs.org/
