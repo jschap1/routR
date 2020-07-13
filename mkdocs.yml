@@ -1,0 +1,8 @@
+site_name: RoutR
+nav:
+  - Main: index.md
+  - Tutorial: tutorial.md
+  - About:
+    - Contact: contact.md
+    - License: license.md
+theme: readthedocs

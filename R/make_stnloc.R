@@ -18,11 +18,11 @@
 
 make_stnloc <- function(r, gage_coords, basename, saveloc)
 {
-  latlon <- read.table(gage_coords, col.names = c("lon", "lat"), sep=",")
+  latlon <- read.table(gage_coords, col.names = c("lon", "lat"))
   
   # Find row and column locations of gage_coords in r
-  cols <- colFromX(r, latlon$lon)
-  rows <- rowFromY(r, latlon$lat)
+  cols <- raster::colFromX(r, latlon$lon)
+  rows <- raster::rowFromY(r, latlon$lat)
   
   rows = nrow(r) - round(rows) + 1;
   # rows = round(rows);

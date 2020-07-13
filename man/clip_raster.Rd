@@ -6,6 +6,11 @@
 \usage{
 clip_raster(raster, shape)
 }
+\arguments{
+\item{raster}{raster to clip}
+
+\item{shape}{shapefile to use as clip boundary}
+}
 \description{
 Clips a raster to a shapefile
 A user-written function from Carsten Neumann:

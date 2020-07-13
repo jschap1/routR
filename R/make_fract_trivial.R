@@ -10,8 +10,8 @@ make_fract_trivial <- function(basinmask, saveloc, basename)
 {
   fract1 <- basinmask
   fract1[is.na(fract1)] <- 0
-  plot(fract1)
-  writeRaster(fract1, file.path(saveloc, paste0(basename, "_fract_trivial")), 
+  raster::plot(fract1)
+  raster::writeRaster(fract1, file.path(saveloc, paste0(basename, "_fract_trivial")), 
               format = "ascii", overwrite = T)
   print(paste("Fraction file saved to", file.path(saveloc, paste0(basename, "_fract_trivial"))))
   return(fract1)

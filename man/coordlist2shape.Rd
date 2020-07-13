@@ -7,11 +7,11 @@
 coordlist2shape(gages, outname, r)
 }
 \arguments{
+\item{gages}{data frame containing lat and lon values for each station}
+
 \item{outname}{savename for the output shapefile}
 
 \item{r}{raster or vector object with the desired output coordinate system}
-
-\item{coordlist}{data frame containing lat and lon values for each station}
 }
 \description{
 Make shapefile from list of coordinates

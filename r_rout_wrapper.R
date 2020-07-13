@@ -11,19 +11,60 @@ parent_dir <- "/home/jschap/Documents/Codes/RoutR"
 # create("RoutR")
 
 setwd(parent_dir)
+# use_package("pracma")
 document()
 setwd("..")
 install("RoutR")
 
 library(RoutR)
-library(raster)
+# library(raster)
+# library(rgdal)
+
+# Data -----------------------------------------------------
+
+# Keep this in Mercator projection
 library(rgdal)
+library(raster)
+rivs_merc <- readOGR("/hdd/Tuolumne/TuoSub/GIS/narivs.merc.clipped.shp")
+bb_merc <- readOGR("/hdd/Tuolumne/TuoSub/GIS/bb.merc.shp")
+dem_merc <- raster("/hdd/Tuolumne/TuoSub/GIS/dem_merc_cropped.asc")
+fd_merc <- raster("/hdd/Tuolumne/TuoSub/GIS/fdir.asc")
+crs(dem_merc) <- crs(rivs_merc)
+crs(fd_merc) <- crs(rivs_merc)
+
+gage <- read.table("/hdd/Tuolumne/TuoSub/gagelocs.txt", header = TRUE,
+                   stringsAsFactors = FALSE, skip=1)
+coordinates(gage) <- ~lat+lon
+crs(gage) <- "+init=epsg:4326"
+gage_merc <- spTransform(gage, crs(dem_merc))
+
+plot(dem_merc, asp = 1, 
+     main = "Tuolumne River near Piute Creek",
+     xlab = "Lon", ylab = "Lat")
+lines(bb_merc)
+lines(rivs_merc, col = "blue")
+points(gage_merc, pch = 19, cex = 1, col = "blue")
+
+bb <- spTransform(bb_merc, crs(gage))
+rivs <- spTransform(rivs_merc, crs(gage))
+dem <- projectRaster(dem_merc, crs = "+init=epsg:4326")
+fd <- projectRaster(fd_merc, crs = "+init=epsg:4326", method = "ngb")
+
+plot(dem, asp = 1,
+     main = "Tuolumne River near Piute Creek",
+     xlab = "Lon", ylab = "Lat")
+lines(bb)
+lines(rivs, col = "blue")
+points(gage, pch = 19, cex = 1, col = "blue")
+
+save(dem, bb, rivs, gage, fd, dem_merc, bb_merc, rivs_merc, gage_merc, fd_merc, 
+     file = "/home/jschap/Documents/Codes/RoutR/data/upptuo.rda")
 
 # Load an existing flow direction file ---------------------
 
 fd <- raster("/Volumes/HD3/SWOTDA/FDT/v12032019/fd_grass_d5_masked.tif")
 plot(fd, main = "Flow directions (GRASS convention)")
-
+# https://github.com/jschap1/FlowDirectionToolkit
 # Write out a flow direction file for input into GRASS GIS ---------------------
 
 fd[fd==0] <- NA

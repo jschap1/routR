@@ -13,7 +13,7 @@
 
 get_raster_coords <- function(r, saveloc = FALSE)
 {
-  spts <- rasterToPoints(fd, spatial = TRUE)
+  spts <- raster::rasterToPoints(fd, spatial = TRUE)
   coords <- as.data.frame(spts)
   
   x <- unique(coords[,2])
